@@ -4,19 +4,19 @@ tf.disable_v2_behavior()
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# First we load the entire CSV file into an m x 3
-D = np.matrix(pd.read_csv("TSLA.csv", header=None).values)
+filename = "TSLA.csv"
 
-# We extract all rows and the first 2 columns into X_data
-# Then we flip it
+D = np.matrix(pd.read_csv(filename, header=None).values)
 
+learning_rate = 0.5
+num_epochs = 5000
 
+# Enter Input row(s) and output row
 in1 = np.asarray(D[1:, 1])
 in2 = np.asarray(D[1:, 2])
 in3 = np.asarray(D[1:, 3])
 in4 = np.asarray(D[1:, 5])
 in5 = np.asarray(D[1:, 6])
-
 out = np.asarray(D[1:, 4])
 
 in_columns = np.column_stack((in1, in2, in3, in4, in5))
@@ -43,15 +43,15 @@ y_predicted = tf.matmul(A, x) + b
 L = tf.reduce_sum((y_predicted - y)**2)
 
 # Define optimizer object
-#optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.0000000001).minimize(L)
-optimizer = tf.train.AdamOptimizer(learning_rate=0.5).minimize(L)
+#optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(L)
+optimizer = tf.train.AdamOptimizer(learning_rate).minimize(L)
 
 # Create a session and initialize variables
 session = tf.Session()
 session.run(tf.global_variables_initializer())
 
 # Main optimization loop
-for t in range(1000):
+for t in range(num_epochs):
     _, current_loss, current_A, current_b = session.run([optimizer, L, A, b], feed_dict={
         x: X_data,
         y: y_data
