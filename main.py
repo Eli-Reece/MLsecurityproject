@@ -75,6 +75,6 @@ for i in range(n_samples):
     actual = float(y_data.item(i))
     error = (actual-predict)/actual * 100.0
     error_sum += abs(error)
-    print(f"actual: {actual} , prediction: {predict}, error: = {error}")
+    print(f"actual: {actual} , prediction: {predict}, error: = {error}%")
 
 print(f"avg error : {int(error_sum/n_samples)}%")
