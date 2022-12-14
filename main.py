@@ -4,14 +4,18 @@ tf.disable_v2_behavior()
 import pandas as pd
 import matplotlib.pyplot as plt
 
-#filename = "TSLA.csv"
 filename = "card_transdata.csv"
 
 D = np.matrix(pd.read_csv(filename, header=None).values)
 
-learning_rate = 0.2
-num_epochs = 1000
 max_entries = 10000
+
+#If using AdamOptimizer
+learning_rate = 0.2; num_epochs = 1000
+
+#If using GradientDescentOptimizer
+learning_rate = 0.00000002; num_epochs = 20000
+
 
 # Enter Input row(s) and output row
 in0 = np.asarray(D[1:max_entries, 0])
@@ -62,7 +66,8 @@ y_predicted = tf.matmul(A, x) + b
 L = tf.reduce_sum((y_predicted - y)**2)
 
 # Define optimizer object
-optimizer = tf.train.AdamOptimizer(learning_rate).minimize(L)
+#optimizer = tf.train.AdamOptimizer(learning_rate).minimize(L)
+optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(L)
 
 # Create a session and initialize variables
 session = tf.Session()
@@ -105,6 +110,6 @@ for i in range(n_samples_test):
     else: no_fraud +=1
     print(f"actual: {actual} , prediction: {predict}, error: = {error}%")
 
-error_percentage = (missed_fraud + false_fraud)/n_samples_test
-print("avg error : {:.3f}%".format(error_percentage))
+error_percentage = (missed_fraud + false_fraud)/n_samples_test*100
+print("avg error : {:.4f}%".format(error_percentage))
 print(f"fraud: {fraud} , no_fraud: {no_fraud}, missed_fraud: = {missed_fraud}, false_fraud: = {false_fraud}")
