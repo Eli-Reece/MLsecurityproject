@@ -14,7 +14,7 @@ max_entries = 10000
 learning_rate = 0.2; num_epochs = 1000
 
 #If using GradientDescentOptimizer
-learning_rate = 0.00000002; num_epochs = 20000
+#learning_rate = 0.00000002; num_epochs = 20000
 
 
 # Enter Input row(s) and output row
@@ -66,8 +66,8 @@ y_predicted = tf.matmul(A, x) + b
 L = tf.reduce_sum((y_predicted - y)**2)
 
 # Define optimizer object
-#optimizer = tf.train.AdamOptimizer(learning_rate).minimize(L)
-optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(L)
+optimizer = tf.train.AdamOptimizer(learning_rate).minimize(L)
+#optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(L)
 
 # Create a session and initialize variables
 session = tf.Session()
